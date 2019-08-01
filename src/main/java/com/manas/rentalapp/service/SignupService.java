@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.manas.Dao.SignupDao;
+import com.manas.rentalapp.Dao.SignupDao;
 import com.manas.rentalapp.model.AccountStatus;
 import com.manas.rentalapp.model.Login;
 import com.manas.rentalapp.model.UserProfile;

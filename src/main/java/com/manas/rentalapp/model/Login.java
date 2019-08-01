@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +28,7 @@ public class Login {
 	@Column(name="ip_address")
 	private String ipAddress;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name="account_status")
 	private AccountStatus accountStatus;
 	

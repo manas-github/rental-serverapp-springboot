@@ -1,4 +1,4 @@
-package com.manas.Dao;
+package com.manas.rentalapp.Dao;
 
 import java.util.Date;
 

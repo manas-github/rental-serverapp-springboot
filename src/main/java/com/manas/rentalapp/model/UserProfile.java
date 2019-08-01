@@ -32,7 +32,6 @@ public class UserProfile {
 	
 	@NotBlank
 	@Column(unique=true)
-	
 	private String email;
 	
 	private Date dob;
