@@ -1,14 +1,10 @@
 package com.manas.rentalapp.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.manas.rentalapp.model.ProductCategory;
 import com.manas.rentalapp.Dao.ProductDao;
 import com.manas.rentalapp.model.Product;

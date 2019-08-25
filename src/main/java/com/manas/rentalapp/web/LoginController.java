@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.manas.rentalapp.Dao.LoginDao;
 import com.manas.rentalapp.service.LoginService;
 
-@RequestMapping("/api")
+@RequestMapping("/api/v1/login")
 @RestController
 public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
 	
-	@RequestMapping(value="/login",method = RequestMethod.POST)
+	@RequestMapping(value="/",method = RequestMethod.POST)
 	public ResponseEntity<String> login(@RequestBody LoginDao loginDao){
 		boolean result = loginService.login(loginDao);
 		if(result) {

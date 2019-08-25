@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.manas.rentalapp.Dao.SignupDao;
 import com.manas.rentalapp.service.SignupService;
 
-@RequestMapping("/api")
+@RequestMapping("/api/v1/signup")
 @RestController
 public class SignupController {
 
 	@Autowired
 	private SignupService signupService;
 	
-	@RequestMapping(value="/signup",method = RequestMethod.POST)
+	@RequestMapping(value="/",method = RequestMethod.POST)
 	public ResponseEntity<String> signup(@RequestBody SignupDao signupDao){
 		boolean result = signupService.signup(signupDao);
 		if(result) {

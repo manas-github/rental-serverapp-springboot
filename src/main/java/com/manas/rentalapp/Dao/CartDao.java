@@ -1,6 +1,6 @@
 package com.manas.rentalapp.Dao;
 
-public class AddProductToCartDao {
+public class CartDao {
 
 	private long productId;
 	
@@ -22,13 +22,5 @@ public class AddProductToCartDao {
 		this.email = email;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	private int quantity;
 }
