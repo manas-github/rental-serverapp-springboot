@@ -1,7 +1,6 @@
 package com.manas.rentalapp.dto;
 
 import java.util.List;
-
 import com.manas.rentalapp.model.CartItem;
 
 public class CartDto {
