@@ -1,0 +1,11 @@
+Hibernate: create table login (id bigint not null auto_increment, account_status integer, email varchar(255), ip_address varchar(255), last_login datetime, password varchar(255), user_profile_id bigint, primary key (id)) engine=InnoDB
+Hibernate: create table user_profile (id bigint not null auto_increment, address varchar(255), created_on datetime, dob datetime, email varchar(255), first_name varchar(255), last_name varchar(255), mobile varchar(255), updated_on datetime, primary key (id)) engine=InnoDB
+Hibernate: alter table login drop index UK_3cs7dxhnine2f6x5ic4741s6e
+Hibernate: alter table login add constraint UK_3cs7dxhnine2f6x5ic4741s6e unique (email)
+Hibernate: alter table user_profile drop index UK_tcks72p02h4dp13cbhxne17ad
+Hibernate: alter table user_profile add constraint UK_tcks72p02h4dp13cbhxne17ad unique (email)
+Hibernate: alter table user_profile drop index UK_fnoac6hb3p160m6v4pat9liwp
+Hibernate: alter table user_profile add constraint UK_fnoac6hb3p160m6v4pat9liwp unique (mobile)
+Hibernate: alter table login add constraint FK3woa0x59r2fjjejv9x8dp20vo foreign key (user_profile_id) references user_profile (id)
+
+Hibernate: create table products (id bigint not null auto_increment, available_quantity integer not null, description varchar(255), image_url varchar(255), is_active bit not null, price tinyblob, product_category integer, title varchar(255), primary key (id)) engine=InnoDB
