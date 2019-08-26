@@ -63,7 +63,6 @@ public class CartService {
 	
 	@Transactional
 	public boolean addProductToCart(CartDao cartDao) {
-		
 		UserProfile user = userProfileRepository.findByEmail(cartDao.getEmail());
 		if(user==null) {
 			return false;
@@ -81,6 +80,7 @@ public class CartService {
 			cartItem.setProduct(product);
 			cartItem.setProductAddedOn(new Date());
 			cartItem.setQuantity(1);
+			cartItem.setDuration(cartDao.getDuration());
 			
 			List<CartItem> cartItemList = new ArrayList<>();
 			
@@ -93,7 +93,7 @@ public class CartService {
 			List<CartItem> cartItemList = existingCart.get().getCartItem();
 			boolean alreadyExistInCart = false;
 			for(CartItem cartItem : cartItemList) {
-				if(cartItem.getProduct().getId()==cartDao.getProductId()) {
+				if(cartItem.getProduct().getId()==cartDao.getProductId() && cartDao.getDuration()==cartItem.getDuration()) {
 					cartItem.setQuantity(cartItem.getQuantity()+1);
 					alreadyExistInCart = true;
 				}
@@ -104,6 +104,7 @@ public class CartService {
 				cartItem.setProduct(product);
 				cartItem.setProductAddedOn(new Date());
 				cartItem.setQuantity(1);
+				cartItem.setDuration(cartDao.getDuration());
 
 				cartItemList.add(cartItem);	
 			}
@@ -130,7 +131,7 @@ public class CartService {
 			int cartItemCount=cartItemList.size();
 
 			cartItemList.removeIf(cartItem ->
-				cartItem.getProduct().getId() == cartDao.getProductId()
+				(cartItem.getProduct().getId() == cartDao.getProductId() && cartItem.getDuration()==cartDao.getDuration())
 			);
 			if(cartItemList.size()==cartItemCount) {
 				return false;
@@ -165,7 +166,7 @@ public class CartService {
 			isUpdatedQuantityZero = false;
 			List<CartItem> cartItemList = existingCart.get().getCartItem();
 			cartItemList.stream().forEach(cartItem ->{
-				if(cartItem.getProduct().getId()==cartDao.getProductId()) {
+				if(cartItem.getProduct().getId()==cartDao.getProductId() && cartDao.getDuration() == cartItem.getDuration()) {
 					cartItem.setQuantity(cartItem.getQuantity()-1);
 					counter++;
 					if(cartItem.getQuantity()==0) {

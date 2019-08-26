@@ -6,6 +6,16 @@ public class CartDao {
 	
 	private String email;
 	
+	private int duration;
+	
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
 	public long getProductId() {
 		return productId;
 	}

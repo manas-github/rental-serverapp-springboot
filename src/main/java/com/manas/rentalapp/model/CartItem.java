@@ -22,6 +22,8 @@ public class CartItem {
 	
 	private int quantity;
 	
+	private int duration;
+	
 	private Date productAddedOn;
 
 	@ManyToMany(mappedBy="cartItem") 
@@ -33,6 +35,14 @@ public class CartItem {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
 	public Product getProduct() {
