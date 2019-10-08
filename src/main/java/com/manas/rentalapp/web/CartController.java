@@ -19,10 +19,15 @@ public class CartController{
 	@Autowired
 	private CartService cartService;
 	
-	@RequestMapping(value="/", method = RequestMethod.POST)
+	@RequestMapping(value="", method = RequestMethod.POST)
 	public CartDto getCart(@RequestBody UserDao userDao){
 		CartDto cart = cartService.getCart(userDao);
 		return cart;
+	}
+	
+	@RequestMapping(value="/getCartItemCount", method = RequestMethod.POST)
+	public int getCartItemCount(@RequestBody UserDao userDao) {
+		return cartService.getCartCount(userDao);
 	}
 	
 	@RequestMapping(value="/addProduct",method = RequestMethod.PATCH)
@@ -37,35 +42,35 @@ public class CartController{
 	}
 	
 	@RequestMapping(value="/increaseQuantity",method = RequestMethod.PATCH)
-	public ResponseEntity<String> increaseQuantity(@RequestBody CartDao cartDao){
+	public ResponseEntity<Boolean> increaseQuantity(@RequestBody CartDao cartDao){
 		boolean result = cartService.addProductToCart(cartDao);
 		if(result) {
-			return new ResponseEntity<>("Succesfull",HttpStatus.OK);
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>("Unable to update cart",HttpStatus.METHOD_NOT_ALLOWED);
+			return new ResponseEntity<>(result,HttpStatus.METHOD_NOT_ALLOWED);
 		}	
 	}
 	
 	@RequestMapping(value="/removeProduct",method = RequestMethod.PATCH)
-	public ResponseEntity<String> removeItem(@RequestBody CartDao cartDao){
+	public ResponseEntity<Boolean> removeItem(@RequestBody CartDao cartDao){
 		boolean result = cartService.removeProductFromCart(cartDao);
 		if(result) {
-			return new ResponseEntity<>("Succesfull",HttpStatus.OK);
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>("Unable to update cart",HttpStatus.METHOD_NOT_ALLOWED);
+			return new ResponseEntity<>(result,HttpStatus.METHOD_NOT_ALLOWED);
 		}	
 	}
 	
-	@RequestMapping(value="/descreaseQuantity",method = RequestMethod.PATCH)
-	public ResponseEntity<String> decreaseQuantity(@RequestBody CartDao cartDao){
+	@RequestMapping(value="/decreaseQuantity",method = RequestMethod.PATCH)
+	public ResponseEntity<Boolean> decreaseQuantity(@RequestBody CartDao cartDao){
 		boolean result = cartService.decreaseQuantity(cartDao);
 		if(result) {
-			return new ResponseEntity<>("Succesfull",HttpStatus.OK);
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>("Unable to update cart",HttpStatus.METHOD_NOT_ALLOWED);
+			return new ResponseEntity<>(result,HttpStatus.METHOD_NOT_ALLOWED);
 		}	
 	}
 	

@@ -200,14 +200,25 @@ public class CartService {
 		}
 		Optional<Cart> existingCart = cartRepository.findByUserProfileId(user.getId());
 		if(existingCart.isPresent()) {
-			existingCart.get().getCartItem().clear();
-		}
-		if(existingCart.get().getCartItem().isEmpty()) {
-			cartRepository.save(existingCart.get());
+			cartRepository.deleteById(existingCart.get().getId());
 			return true;
 		}
 		else
 			return false;
+	}
+	
+	@Transactional
+	public int getCartCount(UserDao userDao) {
+		UserProfile user = userProfileRepository.findByEmail(userDao.getEmail());
+		if(user==null) {
+			return 0;
+		}
+		Optional<Cart> existingCart = cartRepository.findByUserProfileId(user.getId());
+		if(existingCart.isPresent()) {
+			return existingCart.get().getCartItem().size();
+		}
+		else
+			return 0;
 	}
 }
 

@@ -1,11 +1,23 @@
 package com.manas.rentalapp.model;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Product {
@@ -22,8 +34,11 @@ public class Product {
 	
 	private int availableQuantity;
 	
-	private int[][] price;
-	
+	@ElementCollection
+    @MapKeyColumn(name="name")
+    @CollectionTable(name="priceList")
+    Map<String, String> price = new HashMap<String, String>();
+
 	@Enumerated(EnumType.STRING)
 	private ProductCategory productCategory;
 	
@@ -69,14 +84,6 @@ public class Product {
 		this.availableQuantity = availableQuantity;
 	}
 
-	public int[][] getPrice() {
-		return price;
-	}
-
-	public void setPrice(int[][] price) {
-		this.price = price;
-	}
-
 	public ProductCategory getProductCategory() {
 		return productCategory;
 	}
@@ -92,5 +99,15 @@ public class Product {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+
+	public Map<String, String> getPrice() {
+		return price;
+	}
+
+	public void setPrice(Map<String, String> price) {
+		this.price = price;
+	}
+
+
 	
 }

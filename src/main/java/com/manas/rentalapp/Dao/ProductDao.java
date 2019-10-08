@@ -1,4 +1,7 @@
 package com.manas.rentalapp.Dao;
+import java.util.List;
+import java.util.Map;
+
 import com.manas.rentalapp.model.ProductCategory;
 
 public class ProductDao {
@@ -11,7 +14,7 @@ public class ProductDao {
 	
 	private int availableQuantity;
 	
-	private int[][] price;
+	private Map<String,String> price;
 	
 	private ProductCategory productCategory;
 	
@@ -57,11 +60,13 @@ public class ProductDao {
 		this.availableQuantity = availableQuantity;
 	}
 
-	public int[][] getPrice() {
+
+
+	public Map<String, String> getPrice() {
 		return price;
 	}
 
-	public void setPrice(int[][] price) {
+	public void setPrice(Map<String, String> price) {
 		this.price = price;
 	}
 
