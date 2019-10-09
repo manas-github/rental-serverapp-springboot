@@ -18,14 +18,14 @@ public class SignupController {
 	@Autowired
 	private SignupService signupService;
 	
-	@RequestMapping(value="/",method = RequestMethod.POST)
-	public ResponseEntity<String> signup(@RequestBody SignupDao signupDao){
+	@RequestMapping(value="",method = RequestMethod.POST)
+	public ResponseEntity<Boolean> signup(@RequestBody SignupDao signupDao){
 		boolean result = signupService.signup(signupDao);
 		if(result) {
-			return new ResponseEntity<>("Succesfull",HttpStatus.CREATED);
+			return new ResponseEntity<>(result,HttpStatus.CREATED);
 		}
 		else {
-			return new ResponseEntity<>("User already exist",HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(result,HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
 		

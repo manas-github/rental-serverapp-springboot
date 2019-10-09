@@ -57,8 +57,17 @@ public class CartService {
 			cartDto.setCartItem(cart.get().getCartItem());
 			return cartDto;
 		}
-		else
-			return new CartDto();
+		else {
+			CartDto cartDto = new CartDto();
+			UserDto userDto = new UserDto();
+			userDto.setId(user.getId());
+			userDto.setFirstName(user.getFirstName());
+			userDto.setLastName(user.getLastName());
+			userDto.setMobile(user.getMobile());
+			userDto.setEmail(user.getEmail());
+			cartDto.setUser(userDto);
+			return cartDto;
+		}
 	}
 	
 	@Transactional

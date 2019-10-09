@@ -18,14 +18,14 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 	
-	@RequestMapping(value="/",method = RequestMethod.POST)
-	public ResponseEntity<String> login(@RequestBody LoginDao loginDao){
+	@RequestMapping(value="",method = RequestMethod.POST)
+	public ResponseEntity<Boolean> login(@RequestBody LoginDao loginDao){
 		boolean result = loginService.login(loginDao);
 		if(result) {
-			return new ResponseEntity<>("Succesfull",HttpStatus.OK);
+			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>("Invalid credentials",HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(result,HttpStatus.UNAUTHORIZED);
 		}
 		
 		
