@@ -3,7 +3,9 @@ package com.manas.rentalapp.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +28,10 @@ public class CartController{
 	}
 	
 	@RequestMapping(value="/getCartItemCount", method = RequestMethod.POST)
-	public int getCartItemCount(@RequestBody UserDao userDao) {
+	public int getCartItemCount(@RequestHeader("authorization") String token) {
+		System.out.print(token);
+		UserDao userDao = new UserDao();
+		userDao.setEmail(token);
 		return cartService.getCartCount(userDao);
 	}
 	
