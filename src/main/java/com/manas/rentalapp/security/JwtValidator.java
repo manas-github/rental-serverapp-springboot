@@ -12,7 +12,9 @@ public class JwtValidator {
     private String secret = "youtube";
 
     public JwtUser validate(String token) {
-
+    	if(token.startsWith("Token")){
+    		token = token.substring(6);
+    	}
         JwtUser jwtUser = null;
         try {
             Claims body = Jwts.parser()

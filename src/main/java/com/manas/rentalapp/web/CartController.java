@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.manas.rentalapp.Dao.CartDao;
 import com.manas.rentalapp.Dao.UserDao;
 import com.manas.rentalapp.dto.CartDto;
+import com.manas.rentalapp.security.JwtValidator;
 import com.manas.rentalapp.service.CartService;
 
 @RequestMapping("/api/v1/cart")
@@ -21,23 +22,25 @@ public class CartController{
 	@Autowired
 	private CartService cartService;
 	
+	@Autowired JwtValidator jwtValidator;
+	
 	@RequestMapping(value="", method = RequestMethod.POST)
-	public CartDto getCart(@RequestBody UserDao userDao){
-		CartDto cart = cartService.getCart(userDao);
+	public CartDto getCart(@RequestHeader("authorization") String token){
+		String email = jwtValidator.validate(token).getUserName();
+		CartDto cart = cartService.getCart(new UserDao(email));
 		return cart;
 	}
 	
 	@RequestMapping(value="/getCartItemCount", method = RequestMethod.POST)
 	public int getCartItemCount(@RequestHeader("authorization") String token) {
-		System.out.print(token);
-		UserDao userDao = new UserDao();
-		userDao.setEmail(token);
-		return cartService.getCartCount(userDao);
+		String email = jwtValidator.validate(token).getUserName();
+		return cartService.getCartCount(new UserDao(email));
 	}
 	
 	@RequestMapping(value="/addProduct",method = RequestMethod.PATCH)
-	public ResponseEntity<String> updateCart(@RequestBody CartDao cartDao){
-		boolean result = cartService.addProductToCart(cartDao);
+	public ResponseEntity<String> updateCart(@RequestHeader("authorization") String token,@RequestBody CartDao cartDao){
+		String email = jwtValidator.validate(token).getUserName();
+		boolean result = cartService.addProductToCart(new UserDao(email),cartDao);
 		if(result) {
 			return new ResponseEntity<>("Succesfull",HttpStatus.OK);
 		}
@@ -47,8 +50,9 @@ public class CartController{
 	}
 	
 	@RequestMapping(value="/increaseQuantity",method = RequestMethod.PATCH)
-	public ResponseEntity<Boolean> increaseQuantity(@RequestBody CartDao cartDao){
-		boolean result = cartService.addProductToCart(cartDao);
+	public ResponseEntity<Boolean> increaseQuantity(@RequestHeader("authorization") String token,@RequestBody CartDao cartDao){
+		String email = jwtValidator.validate(token).getUserName();
+		boolean result = cartService.addProductToCart(new UserDao(email),cartDao);
 		if(result) {
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
@@ -58,8 +62,9 @@ public class CartController{
 	}
 	
 	@RequestMapping(value="/removeProduct",method = RequestMethod.PATCH)
-	public ResponseEntity<Boolean> removeItem(@RequestBody CartDao cartDao){
-		boolean result = cartService.removeProductFromCart(cartDao);
+	public ResponseEntity<Boolean> removeItem(@RequestHeader("authorization") String token,@RequestBody CartDao cartDao){
+		String email = jwtValidator.validate(token).getUserName();
+		boolean result = cartService.removeProductFromCart(new UserDao(email),cartDao);
 		if(result) {
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}
@@ -69,8 +74,9 @@ public class CartController{
 	}
 	
 	@RequestMapping(value="/decreaseQuantity",method = RequestMethod.PATCH)
-	public ResponseEntity<Boolean> decreaseQuantity(@RequestBody CartDao cartDao){
-		boolean result = cartService.decreaseQuantity(cartDao);
+	public ResponseEntity<Boolean> decreaseQuantity(@RequestHeader("authorization") String token,@RequestBody CartDao cartDao){
+		String email = jwtValidator.validate(token).getUserName();
+		boolean result = cartService.decreaseQuantity(new UserDao(email),cartDao);
 		if(result) {
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		}

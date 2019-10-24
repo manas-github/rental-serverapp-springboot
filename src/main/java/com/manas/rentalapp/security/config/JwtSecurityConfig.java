@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -37,7 +38,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
-    @Bean
+ 
     public JwtAuthenticationTokenFilter authenticationTokenFilter() {
         JwtAuthenticationTokenFilter filter = new JwtAuthenticationTokenFilter();
         filter.setAuthenticationManager(authenticationManager());
@@ -45,12 +46,13 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/api").authenticated()
+        		.authorizeRequests()
+                .antMatchers("**/api/**").authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()

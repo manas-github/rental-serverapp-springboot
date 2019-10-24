@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.manas.rentalapp.Dao.SignupDao;
 import com.manas.rentalapp.service.SignupService;
 
-@RequestMapping("/api/v1/signup")
+@RequestMapping("/signup")
 @RestController
 public class SignupController {
 

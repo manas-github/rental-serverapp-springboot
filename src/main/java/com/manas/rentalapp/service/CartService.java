@@ -71,8 +71,8 @@ public class CartService {
 	}
 	
 	@Transactional
-	public boolean addProductToCart(CartDao cartDao) {
-		UserProfile user = userProfileRepository.findByEmail(cartDao.getEmail());
+	public boolean addProductToCart(UserDao userDao,CartDao cartDao) {
+		UserProfile user = userProfileRepository.findByEmail(userDao.getEmail());
 		if(user==null) {
 			return false;
 		}
@@ -124,8 +124,8 @@ public class CartService {
 	}
 
 	@Transactional
-	public boolean removeProductFromCart(CartDao cartDao) {
-		UserProfile user = userProfileRepository.findByEmail(cartDao.getEmail());
+	public boolean removeProductFromCart(UserDao userDao,CartDao cartDao) {
+		UserProfile user = userProfileRepository.findByEmail(userDao.getEmail());
 		if(user==null) {
 			return false;
 		}
@@ -159,9 +159,9 @@ public class CartService {
 	}
 
 	@Transactional
-	public boolean decreaseQuantity(CartDao cartDao) {
+	public boolean decreaseQuantity(UserDao userDao,CartDao cartDao) {
 		Product product = productRepository.findById(cartDao.getProductId());
-		UserProfile user = userProfileRepository.findByEmail(cartDao.getEmail());
+		UserProfile user = userProfileRepository.findByEmail(userDao.getEmail());
 		if(user==null) {
 			return false;
 		}
@@ -185,7 +185,7 @@ public class CartService {
 			});
 			if(counter==1) {
 				if(isUpdatedQuantityZero) {
-					return removeProductFromCart(cartDao);
+					return removeProductFromCart(userDao,cartDao);
 				}
 				else {
 					existingCart.get().setCartItem(cartItemList);

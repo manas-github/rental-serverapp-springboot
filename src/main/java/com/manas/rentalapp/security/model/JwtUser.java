@@ -1,6 +1,8 @@
 package com.manas.rentalapp.security.model;
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtUser {
     private String userName;
     private long id;

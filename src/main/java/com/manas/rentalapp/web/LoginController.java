@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.manas.rentalapp.Dao.LoginDao;
 import com.manas.rentalapp.service.LoginService;
 
-@RequestMapping("/api/v1/login")
+@RequestMapping("/login")
 @RestController
 public class LoginController {
 
@@ -19,13 +19,13 @@ public class LoginController {
 	private LoginService loginService;
 	
 	@RequestMapping(value="",method = RequestMethod.POST)
-	public ResponseEntity<Boolean> login(@RequestBody LoginDao loginDao){
-		boolean result = loginService.login(loginDao);
-		if(result) {
-			return new ResponseEntity<>(result,HttpStatus.OK);
+	public ResponseEntity<String> login(@RequestBody LoginDao loginDao){
+		String token = loginService.login(loginDao);
+		if(token!=null) {
+			return new ResponseEntity<>(token,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(result,HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(token,HttpStatus.UNAUTHORIZED);
 		}
 		
 		

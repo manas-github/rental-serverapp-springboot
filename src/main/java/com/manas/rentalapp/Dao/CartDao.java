@@ -3,9 +3,7 @@ package com.manas.rentalapp.Dao;
 public class CartDao {
 
 	private long productId;
-	
-	private String email;
-	
+		
 	private int duration;
 	
 	public int getDuration() {
@@ -24,13 +22,6 @@ public class CartDao {
 		this.productId = productId;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 
 }
