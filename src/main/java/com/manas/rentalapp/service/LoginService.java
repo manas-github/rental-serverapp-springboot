@@ -12,6 +12,7 @@ import com.manas.rentalapp.model.Login;
 import com.manas.rentalapp.repository.LoginRepository;
 import com.manas.rentalapp.security.JwtGenerator;
 import com.manas.rentalapp.security.model.JwtUser;
+import com.manas.rentalapp.util.Security;
 
 @Service
 public class LoginService {
@@ -24,6 +25,9 @@ public class LoginService {
 	
 	@Autowired
 	private JwtGenerator jwtGenerator;
+	
+	@Autowired
+	private Security security;
 	
 	@Transactional
 	public String login(LoginDao loginDao) {
@@ -40,6 +44,7 @@ public class LoginService {
 				jwtUser.setRole("user");
 				jwtUser.setId(user.getUserProfile().getId());
 				String token = jwtGenerator.generate(jwtUser);
+				token = security.encrypt(token);
 				return token;
 			}
 			else {

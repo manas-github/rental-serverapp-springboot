@@ -3,7 +3,6 @@ package com.manas.rentalapp.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +13,7 @@ import com.manas.rentalapp.Dao.UserDao;
 import com.manas.rentalapp.dto.CartDto;
 import com.manas.rentalapp.security.JwtValidator;
 import com.manas.rentalapp.service.CartService;
+import com.manas.rentalapp.util.Security;
 
 @RequestMapping("/api/v1/cart")
 @RestController
@@ -23,6 +23,8 @@ public class CartController{
 	private CartService cartService;
 	
 	@Autowired JwtValidator jwtValidator;
+	
+	@Autowired Security security;
 	
 	@RequestMapping(value="", method = RequestMethod.POST)
 	public CartDto getCart(@RequestHeader("authorization") String token){
