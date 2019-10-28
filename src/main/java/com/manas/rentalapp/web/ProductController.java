@@ -7,13 +7,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.manas.rentalapp.Dao.ProductDao;
+import com.manas.rentalapp.Dao.UserDao;
+import com.manas.rentalapp.dto.CartDto;
 import com.manas.rentalapp.model.Product;
+import com.manas.rentalapp.model.UserProfile;
+import com.manas.rentalapp.security.JwtValidator;
 import com.manas.rentalapp.service.ProductService;
+import com.manas.rentalapp.service.SearchHistoryService;
+import com.manas.rentalapp.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -21,6 +28,15 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private SearchHistoryService searchHistoryService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private JwtValidator jwtValidator;
 	
 	@RequestMapping(value="/add",method = RequestMethod.POST)
 	public ResponseEntity<String> addProduct(@RequestBody ProductDao productDao){
@@ -62,10 +78,18 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="search/{searchKey}",method = RequestMethod.GET)
-	public List<Product> getProductBySearchingTitle(@PathVariable String searchKey){
+	public List<Product> getProductBySearching(@RequestHeader("authorization") String token,@PathVariable String searchKey){
+		String email = jwtValidator.validate(token).getUserName();
+		UserProfile userProfile = userService.getUserDetails(new UserDao(email));
+		searchHistoryService.addToSearchHistory(userProfile, searchKey);
 		List<Product> products = productService.getProductBySearchingTitle(searchKey);
-		System.out.println(products.size());
 		return products;
+	}
+	
+	@RequestMapping(value="keyPressSearch/{searchKey}",method = RequestMethod.GET)
+	public List<String> getProductByHotSearchingTitle(@PathVariable String searchKey){
+		List<String> titles = productService.getProductTitleByHotSearch(searchKey);
+		return titles;
 	}
 	
 }

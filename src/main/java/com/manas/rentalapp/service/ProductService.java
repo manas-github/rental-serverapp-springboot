@@ -1,5 +1,6 @@
 package com.manas.rentalapp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -72,7 +73,7 @@ public class ProductService {
 		return false;
 				
 	}
-
+	
 	@Transactional
 	public List<Product> getProductBySearchingTitle(String searchKey) {
 		List<Product> products = productRepository.findAll()
@@ -80,5 +81,18 @@ public class ProductService {
 				.filter(product -> product.isActive() && (product.getTitle().toLowerCase().contains(searchKey.toLowerCase()) || product.getDescription().toLowerCase().contains(searchKey.toLowerCase())))
 				.collect(Collectors.toList());
 			return products;
+	}
+	
+	@Transactional
+	public List<String> getProductTitleByHotSearch(String searchKey){
+		List<String> productsTtitle = new ArrayList<>();
+		productRepository
+				.findAll()
+				.stream()
+				.forEach(product ->{
+					if(product.getTitle().toLowerCase().contains(searchKey.toLowerCase()))
+						productsTtitle.add(product.getTitle());
+				});
+		return productsTtitle;
 	}
 }
