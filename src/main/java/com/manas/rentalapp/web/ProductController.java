@@ -61,4 +61,11 @@ public class ProductController {
 		
 	}
 	
+	@RequestMapping(value="search/{searchKey}",method = RequestMethod.GET)
+	public List<Product> getProductBySearchingTitle(@PathVariable String searchKey){
+		List<Product> products = productService.getProductBySearchingTitle(searchKey);
+		System.out.println(products.size());
+		return products;
+	}
+	
 }

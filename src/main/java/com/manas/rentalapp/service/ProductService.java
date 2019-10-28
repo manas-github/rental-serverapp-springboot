@@ -72,4 +72,13 @@ public class ProductService {
 		return false;
 				
 	}
+
+	@Transactional
+	public List<Product> getProductBySearchingTitle(String searchKey) {
+		List<Product> products = productRepository.findAll()
+				.stream()
+				.filter(product -> product.isActive() && (product.getTitle().toLowerCase().contains(searchKey.toLowerCase()) || product.getDescription().toLowerCase().contains(searchKey.toLowerCase())))
+				.collect(Collectors.toList());
+			return products;
+	}
 }

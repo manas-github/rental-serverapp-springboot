@@ -17,6 +17,13 @@ import org.springframework.data.annotation.CreatedDate;
 @Table(name="user_profile")
 public class UserProfile {
 
+	@Override
+	public String toString() {
+		return "UserProfile [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", mobile=" + mobile
+				+ ", email=" + email + ", dob=" + dob + ", address=" + address + ", updatedOn=" + updatedOn
+				+ ", createdOn=" + createdOn + "]";
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
