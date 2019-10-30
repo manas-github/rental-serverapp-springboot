@@ -20,6 +20,7 @@ import com.manas.rentalapp.model.UserProfile;
 import com.manas.rentalapp.security.JwtValidator;
 import com.manas.rentalapp.service.ProductService;
 import com.manas.rentalapp.service.SearchHistoryService;
+import com.manas.rentalapp.service.TrendingProductService;
 import com.manas.rentalapp.service.UserService;
 
 @RestController
@@ -37,6 +38,9 @@ public class ProductController {
 	
 	@Autowired
 	private JwtValidator jwtValidator;
+	
+	@Autowired 
+	private TrendingProductService trendingProductService;
 	
 	@RequestMapping(value="/add",method = RequestMethod.POST)
 	public ResponseEntity<String> addProduct(@RequestBody ProductDao productDao){
@@ -68,10 +72,14 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/{productId}", method = RequestMethod.GET)
-	public ResponseEntity<Product> getProductById(@PathVariable long productId) {
+	public ResponseEntity<Product> getProductById(@RequestHeader("authorization") String token,@PathVariable long productId) {
 		Product product =  productService.getProductById(productId);
-		if(product!=null)
+		if(product!=null) {
+			String email = jwtValidator.validate(token).getUserName();
+			UserProfile userProfile = userService.getUserDetails(new UserDao(email));
+			trendingProductService.addToTrendingProduct(userProfile, product);
 			return new ResponseEntity<>(product,HttpStatus.OK);
+		}
 		else
 			return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 		
