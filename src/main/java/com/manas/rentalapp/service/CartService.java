@@ -71,15 +71,16 @@ public class CartService {
 	}
 	
 	@Transactional
-	public boolean addProductToCart(UserDao userDao,CartDao cartDao) {
+	public int addProductToCart(UserDao userDao,CartDao cartDao) {
+		int cartItemCount = 0;
 		UserProfile user = userProfileRepository.findByEmail(userDao.getEmail());
 		if(user==null) {
-			return false;
+			return -1;
 		}
 		Optional<Cart> existingCart = cartRepository.findByUserProfileId(user.getId());
 		Product product = productRepository.findById(cartDao.getProductId());
 		if(product==null) {
-			return false;
+			return -1;
 		}
 		if(!existingCart.isPresent()) {
 			Cart cart = new Cart();
@@ -95,7 +96,7 @@ public class CartService {
 			
 			cartItemList.add(cartItem);
 			cart.setCartItem(cartItemList);
-			
+			cartItemCount =1;
 			cartRepository.save(cart);
 		}
 		else {
@@ -114,13 +115,13 @@ public class CartService {
 				cartItem.setProductAddedOn(new Date());
 				cartItem.setQuantity(1);
 				cartItem.setDuration(cartDao.getDuration());
-
 				cartItemList.add(cartItem);	
+				cartItemCount = cartItemList.size();
 			}
 			cartRepository.save(existingCart.get());
 		}
 		
-		return true;	
+		return cartItemCount;	
 	}
 
 	@Transactional

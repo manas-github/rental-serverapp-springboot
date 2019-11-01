@@ -42,24 +42,24 @@ public class CartController{
 	@RequestMapping(value="/addProduct",method = RequestMethod.PATCH)
 	public ResponseEntity<String> updateCart(@RequestHeader("authorization") String token,@RequestBody CartDao cartDao){
 		String email = jwtValidator.validate(token).getUserName();
-		boolean result = cartService.addProductToCart(new UserDao(email),cartDao);
-		if(result) {
-			return new ResponseEntity<>("Succesfull",HttpStatus.OK);
+		int result = cartService.addProductToCart(new UserDao(email),cartDao);
+		if(result!=-1) {
+			return new ResponseEntity<>(Integer.toString(result),HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>("Unable to update cart",HttpStatus.METHOD_NOT_ALLOWED);
+			return new ResponseEntity<>("Unable to update ",HttpStatus.METHOD_NOT_ALLOWED);
 		}	
 	}
 	
 	@RequestMapping(value="/increaseQuantity",method = RequestMethod.PATCH)
 	public ResponseEntity<Boolean> increaseQuantity(@RequestHeader("authorization") String token,@RequestBody CartDao cartDao){
 		String email = jwtValidator.validate(token).getUserName();
-		boolean result = cartService.addProductToCart(new UserDao(email),cartDao);
-		if(result) {
-			return new ResponseEntity<>(result,HttpStatus.OK);
+		int result = cartService.addProductToCart(new UserDao(email),cartDao);
+		if(result!=-1) {
+			return new ResponseEntity<>(true,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity<>(result,HttpStatus.METHOD_NOT_ALLOWED);
+			return new ResponseEntity<>(false,HttpStatus.METHOD_NOT_ALLOWED);
 		}	
 	}
 	
