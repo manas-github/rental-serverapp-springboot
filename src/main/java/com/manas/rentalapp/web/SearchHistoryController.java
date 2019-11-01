@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.manas.rentalapp.Dao.ProductDao;
 import com.manas.rentalapp.Dao.UserDao;
 import com.manas.rentalapp.model.SearchHistory;
 import com.manas.rentalapp.model.UserProfile;
 import com.manas.rentalapp.security.JwtValidator;
-import com.manas.rentalapp.service.ProductService;
 import com.manas.rentalapp.service.SearchHistoryService;
 import com.manas.rentalapp.service.UserService;
 

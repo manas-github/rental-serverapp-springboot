@@ -1,17 +1,11 @@
 package com.manas.rentalapp.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,26 +21,23 @@ public class TrendingProductService {
 	@Autowired
 	private TrendingProductRepository trendingRepository;
 	
-	public List<Product> getTrendingProducts(){
-			trendingRepository.findAll().forEach(trendingProduct->{
-			Map<UserProfile, LocalDateTime> hm = trendingProduct.getUserDateMap();
-			hm.entrySet().stream().forEach(userDateEntry->{
-				if(userDateEntry.getValue().compareTo(LocalDateTime.now().minusHours(24))<0) {
-					hm.remove(userDateEntry.getKey());
-					trendingProduct.setHitCount(trendingProduct.getHitCount()-1);
-				}
-			});
-			trendingRepository.save(trendingProduct);
-		});
+	@Autowired ScheduledService scheduledService;
+	
+	public List<Product> getTrendingProducts( int count){
+
+		scheduledService.removeUnwantedDataFromTrendingProdcuts();
 		List<Product> productList = new ArrayList<Product>();
 		List<Integer> correspondingCount = new ArrayList<Integer>();
+		System.out.println(count);
 		trendingRepository.findAll().forEach(trendingProduct->{
-			if(productList.size()<=10) {
+			System.out.println(productList.size());
+			if(productList.size()<count) {
+				System.out.println("here1");
 				productList.add(trendingProduct.getProduct());
 				correspondingCount.add(trendingProduct.getHitCount());
 			}
 			else {
-				
+				System.out.println("here2");
 				int minIndex = correspondingCount.indexOf(Collections.min(correspondingCount));
 				if(correspondingCount.get(minIndex)<trendingProduct.getHitCount()) {
 					productList.remove(minIndex);
@@ -58,8 +49,6 @@ public class TrendingProductService {
 		});
 		
 		return productList;
-		
-		
 	}
 	
 	public void addToTrendingProduct(UserProfile user, Product product) {

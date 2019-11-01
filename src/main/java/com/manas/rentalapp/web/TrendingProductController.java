@@ -3,6 +3,7 @@ package com.manas.rentalapp.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,8 +20,17 @@ public class TrendingProductController {
 	
 	@RequestMapping(value="",method = RequestMethod.GET)
 	public List<Product> getTrendingProducts(){
-		return trendingProductService.getTrendingProducts();		
-		
+		return trendingProductService.getTrendingProducts(10);		
+	}
+	
+	@RequestMapping(value="/{countString}",method = RequestMethod.GET)
+	public List<Product> getTrendingProducts(@PathVariable String countString){
+		int count=0;
+		try {
+			count = Integer.parseInt(countString);
+		} catch (Exception e) {
+		}
+		return trendingProductService.getTrendingProducts(count);		
 	}
 	
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manas.rentalapp.Dao.ProductDao;
 import com.manas.rentalapp.Dao.UserDao;
-import com.manas.rentalapp.dto.CartDto;
 import com.manas.rentalapp.model.Product;
 import com.manas.rentalapp.model.UserProfile;
 import com.manas.rentalapp.security.JwtValidator;
