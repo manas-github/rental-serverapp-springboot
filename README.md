@@ -58,9 +58,13 @@ But, we will use postman for making requests here. If you don't have postman, do
 
 To use this application we need a user account. So, we will create a signup request from postman with appropriate body:
 
+![Signup](https://github.com/manas-github/rental-serverapp-springboot/blob/master/readme_assets/Screenshot%202019-11-05%20at%2011.37.27%20PM.png)
+
 It returns true with status 201, which means that account has been created succesfully.
 
 Now, we can login using the signup details.
+
+![Login](https://github.com/manas-github/rental-serverapp-springboot/blob/master/readme_assets/Screenshot%202019-11-05%20at%2011.39.22%20PM.png)
 
 It will return a encrypted token which we used for accessing all the apis.
 
@@ -71,6 +75,8 @@ Add the header in postman request header tab with the token received from login 
   Key - Authorization & Value - Token $token 
   
 Now, make the get request :
+
+![Get products](https://github.com/manas-github/rental-serverapp-springboot/blob/master/readme_assets/Screenshot%202019-11-05%20at%2011.45.42%20PM.png)
 
 Here, we will get all the products which are available in database. If there is no products, we can add product using the respective api as available in documentation.
 
