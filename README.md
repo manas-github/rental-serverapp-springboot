@@ -1,1 +1,2 @@
-# Backend Service for https://github.com/manas-github/rental-app developed using Spring boot and deployed at https://manas-rental-serverapp.herokuapp.com/swagger-ui.html
+# Rental application server ( backend service)
+A complete back end server application developed to provide service for my other project ([rental app](https://github.com/manas-github/rental-app)). This application has been developed using Spring boot and hiberate and deployed on heroku. You can access the list of APIs developed in swagger documentation from [here](https://manas-rental-serverapp.herokuapp.com/swagger-ui.html).
