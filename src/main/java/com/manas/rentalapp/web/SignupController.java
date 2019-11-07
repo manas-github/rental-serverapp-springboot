@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.manas.rentalapp.Dao.SignupDao;
 import com.manas.rentalapp.service.SignupService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(tags = {"Operations pertaining to creating new account"})
 @RequestMapping("/signup")
 @RestController
 public class SignupController {
 
 	@Autowired
 	private SignupService signupService;
-	
+	@ApiOperation(value = "create new user account")
 	@RequestMapping(value="",method = RequestMethod.POST)
 	public ResponseEntity<Boolean> signup(@RequestBody SignupDao signupDao){
 		boolean result = signupService.signup(signupDao);

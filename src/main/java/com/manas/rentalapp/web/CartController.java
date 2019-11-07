@@ -26,7 +26,7 @@ public class CartController{
 	
 	@Autowired Security security;
 	
-	@RequestMapping(value="", method = RequestMethod.POST)
+	@RequestMapping(value="", method = RequestMethod.GET)
 	public CartDto getCart(@RequestHeader("authorization") String token){
 		String email = jwtValidator.validate(token).getUserName();
 		CartDto cart = cartService.getCart(new UserDao(email));
