@@ -10,6 +10,30 @@ public class OrderDao {
 	
 	private String amountPaid;
 	
+	private String paymentMode;
+	
+	private String amountDue;
+	
+	public String getPaymentMode() {
+		return paymentMode;
+	}
+
+	public void setPaymentMode(String paymentMode) {
+		this.paymentMode = paymentMode;
+	}
+
+	public String getAmountDue() {
+		return amountDue;
+	}
+
+	public void setAmountDue(String amountDue) {
+		this.amountDue = amountDue;
+	}
+
+	public void setCouponCodeId(long couponCodeId) {
+		this.couponCodeId = couponCodeId;
+	}
+
 	public String getDiscount() {
 		return discount;
 	}

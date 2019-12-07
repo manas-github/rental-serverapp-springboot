@@ -33,4 +33,11 @@ public class UserService {
 		return userProfileRepository.save(existingUserProfile);
 		
 	}
+	@Transactional
+	public UserProfile updateAddress(UserDao userDao, String address) {
+		UserProfile existingUserProfile = userProfileRepository.findByEmail(userDao.getEmail());
+		existingUserProfile.setAddress(address);
+		return userProfileRepository.save(existingUserProfile);
+		
+	}
 }

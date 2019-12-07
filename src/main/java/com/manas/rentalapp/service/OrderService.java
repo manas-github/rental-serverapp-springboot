@@ -62,9 +62,7 @@ public class OrderService {
 					orderItem.setDuration(cartItem.getDuration());
 					orderItems.add(orderItem);
 				});
-				DiscountCoupon discountCoupon =  discountCouponRepository.findById(orderDao.getCouponCodeId()).get();
 				order.setOrderItems(orderItems);
-				order.setDiscountCoupon(discountCoupon);
 				order.setOrderAmount(Double.parseDouble(orderDao.getTotalAmount()));
 				order.setDiscount(Double.parseDouble(orderDao.getDiscount()));
 				order.setAmountPaid(Double.parseDouble(orderDao.getAmountPaid()));

@@ -38,9 +38,19 @@ public class UserController {
 	
 	@RequestMapping(value="/update",method = RequestMethod.POST)
 	public ResponseEntity<UserProfile> update(@RequestHeader("authorization") String token, @RequestBody UserProfile userProfile){
-		System.out.print(userProfile.toString());
 		String email = jwtValidator.validate(token).getUserName();
 		UserProfile user = userService.updateUserProfile(new UserDao(email),userProfile);
+		if(!user.getEmail().isEmpty()) {
+			return new ResponseEntity<>(user,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(null,HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+	@RequestMapping(value="/updateAddress",method = RequestMethod.POST)
+	public ResponseEntity<UserProfile> updateAddress(@RequestHeader("authorization") String token, @RequestBody String address){
+		String email = jwtValidator.validate(token).getUserName();
+		UserProfile user = userService.updateAddress(new UserDao(email),address);
 		if(!user.getEmail().isEmpty()) {
 			return new ResponseEntity<>(user,HttpStatus.OK);
 		}

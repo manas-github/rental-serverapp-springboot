@@ -38,6 +38,30 @@ public class Order {
 	
 	private double amountPaid;
 	
+	private double amountDue;
+	
+	public double getAmountDue() {
+		return amountDue;
+	}
+
+	public void setAmountDue(double amountDue) {
+		this.amountDue = amountDue;
+	}
+
+	private String paymentMode;
+	
+	public String getPaymentMode() {
+		return paymentMode;
+	}
+
+	public void setPaymentMode(String paymentMode) {
+		this.paymentMode = paymentMode;
+	}
+
+	public void setOrderStatus(Map<OrderStatus, LocalDateTime> orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
 	@ElementCollection
     @CollectionTable(name="orderStatus")
 	private Map<OrderStatus,LocalDateTime> orderStatus = new HashMap<>();;
