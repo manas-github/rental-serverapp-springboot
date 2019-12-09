@@ -66,7 +66,7 @@ public class OrderService {
 				order.setOrderAmount(Double.parseDouble(orderDao.getTotalAmount()));
 				order.setDiscount(Double.parseDouble(orderDao.getDiscount()));
 				order.setAmountPaid(Double.parseDouble(orderDao.getAmountPaid()));
-				
+				order.setPaymentMode(orderDao.getPaymentMode());
 				long orderId = orderRepository.save(order).getId();
 				cartService.clearCart(userDao);
 				return String.valueOf(orderId);
