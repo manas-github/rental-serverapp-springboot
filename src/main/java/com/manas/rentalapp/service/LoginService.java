@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.manas.rentalapp.Dao.LoginDao;
+import com.manas.rentalapp.model.AccountStatus;
 import com.manas.rentalapp.model.Login;
 import com.manas.rentalapp.repository.LoginRepository;
 import com.manas.rentalapp.security.JwtGenerator;
@@ -37,6 +38,9 @@ public class LoginService {
 		}
 		else {	
 			if(user.getPassword().equals(loginDao.getPassword())) {
+				if(user.getAccountStatus().equals(AccountStatus.INACTIVE)) {
+					return "inactive";
+				}
 				user.setIpAddress(loginDao.getIpAddress());
 				user.setLastLogin(new Date());
 				loginRepository.save(user);

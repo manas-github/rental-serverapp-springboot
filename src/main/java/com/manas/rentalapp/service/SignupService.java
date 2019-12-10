@@ -50,7 +50,7 @@ public class SignupService {
 				login.setPassword(signupDao.getPassword());
 				login.setIpAddress(signupDao.getIpAddress());
 				login.setUserProfile(userProfileInstance1);
-				login.setAccountStatus(AccountStatus.ACTIVE);
+				login.setAccountStatus(AccountStatus.INACTIVE);
 				login.setLastLogin(new Date());
 				loginRepository.save(login);
 				return true;
