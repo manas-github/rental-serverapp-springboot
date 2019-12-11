@@ -25,19 +25,17 @@ public class TrendingProductService {
 	
 	public List<Product> getTrendingProducts( int count){
 
-		scheduledService.removeUnwantedDataFromTrendingProdcuts();
+		//scheduledService.removeUnwantedDataFromTrendingProdcuts();
 		List<Product> productList = new ArrayList<Product>();
 		List<Integer> correspondingCount = new ArrayList<Integer>();
 		System.out.println(count);
 		trendingRepository.findAll().forEach(trendingProduct->{
 			System.out.println(productList.size());
 			if(productList.size()<count) {
-				System.out.println("here1");
 				productList.add(trendingProduct.getProduct());
 				correspondingCount.add(trendingProduct.getHitCount());
 			}
 			else {
-				System.out.println("here2");
 				int minIndex = correspondingCount.indexOf(Collections.min(correspondingCount));
 				if(correspondingCount.get(minIndex)<trendingProduct.getHitCount()) {
 					productList.remove(minIndex);
