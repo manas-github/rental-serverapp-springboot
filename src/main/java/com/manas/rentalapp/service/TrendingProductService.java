@@ -25,7 +25,7 @@ public class TrendingProductService {
 	
 	public List<Product> getTrendingProducts( int count){
 
-		//scheduledService.removeUnwantedDataFromTrendingProdcuts();
+		scheduledService.removeUnwantedDataFromTrendingProdcuts();
 		List<Product> productList = new ArrayList<Product>();
 		List<Integer> correspondingCount = new ArrayList<Integer>();
 		System.out.println(count);
