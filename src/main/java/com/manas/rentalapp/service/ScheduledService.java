@@ -1,6 +1,8 @@
 package com.manas.rentalapp.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -24,12 +26,16 @@ public class ScheduledService {
 	public void removeUnwantedDataFromTrendingProdcuts() {
 		trendingRepository.findAll().forEach(trendingProduct->{
 			Map<UserProfile, LocalDateTime> hm = trendingProduct.getUserDateMap();
+			List<UserProfile> pastList = new ArrayList<>();
 			hm.entrySet().stream().forEach(userDateEntry->{
 				if(userDateEntry.getValue().compareTo(LocalDateTime.now().minusHours(24))<0) {
-					hm.remove(userDateEntry.getKey());
-					trendingProduct.setHitCount(trendingProduct.getHitCount()-1);
+					pastList.add(userDateEntry.getKey());					
 				}
 			});
+			pastList.forEach(user->{
+				hm.remove(user);
+			});
+			trendingProduct.setHitCount(trendingProduct.getHitCount()-pastList.size());
 			trendingRepository.save(trendingProduct);
 		});
 		trendingRepository.deleteByHitCount(0);

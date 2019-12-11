@@ -28,9 +28,7 @@ public class TrendingProductService {
 		scheduledService.removeUnwantedDataFromTrendingProdcuts();
 		List<Product> productList = new ArrayList<Product>();
 		List<Integer> correspondingCount = new ArrayList<Integer>();
-		System.out.println(count);
 		trendingRepository.findAll().forEach(trendingProduct->{
-			System.out.println(productList.size());
 			if(productList.size()<count) {
 				productList.add(trendingProduct.getProduct());
 				correspondingCount.add(trendingProduct.getHitCount());
