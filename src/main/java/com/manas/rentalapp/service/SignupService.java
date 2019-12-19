@@ -1,18 +1,23 @@
 package com.manas.rentalapp.service;
 
 import java.util.Date;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.manas.rentalapp.Dao.OtpVerificationDao;
 import com.manas.rentalapp.Dao.SignupDao;
 import com.manas.rentalapp.model.AccountStatus;
 import com.manas.rentalapp.model.Login;
+import com.manas.rentalapp.model.Otp;
 import com.manas.rentalapp.model.UserProfile;
 import com.manas.rentalapp.repository.LoginRepository;
+import com.manas.rentalapp.repository.OtpRepository;
 import com.manas.rentalapp.repository.UserProfileRepository;
+import com.manas.rentalapp.util.OtpService;
 
 @Service
 public class SignupService {
@@ -22,6 +27,12 @@ public class SignupService {
 	
 	@Autowired
 	private LoginRepository loginRepository;
+	
+	@Autowired
+	private OtpService otpService;
+	
+	@Autowired 
+	private OtpRepository otpRepository;
 	
 	@Transactional
 	public boolean signup(SignupDao signupDao) {
@@ -57,5 +68,40 @@ public class SignupService {
 			}
 		}
 		return false;
+	}
+	
+	@Transactional
+	public boolean sendOtp(OtpVerificationDao otpVerificationDao) {
+		String mobile  = otpVerificationDao.getMobile();
+		if(mobile.length()!=10)
+			return false;
+		String otp = otpService.getRandomNumber(5);
+		Otp newOtp;
+		Optional<Otp> otpExisting = otpRepository.findByMobile(mobile);
+		if(otpExisting.isPresent()) {
+			newOtp = otpExisting.get();
+		} else {
+			newOtp = new Otp();
+			newOtp.setMobile(mobile);
+			newOtp.setOtp(otp);
+		}
+		String message="Your OTP for RENTIGO registration is "+otp;
+		if(otpService.sendOtp(mobile, message)) {
+			otpRepository.save(newOtp);
+			return true;
+		}
+		return false;
+	}
+	
+	@Transactional
+	public boolean verifyOtp(OtpVerificationDao otpVerificationDao) {
+		Optional<Otp> otpExisting = otpRepository.findByMobile(otpVerificationDao.getMobile());
+		System.out.print(otpExisting.isPresent());
+		if(!otpExisting.isPresent()) {
+			return false;
+		} else {
+			return otpExisting.get().getOtp().equals(otpVerificationDao.getOtp());
+		}
+
 	}
 }

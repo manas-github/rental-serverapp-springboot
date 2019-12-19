@@ -1,5 +1,7 @@
 package com.manas.rentalapp.web;
 
+import javax.xml.ws.RequestWrapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.manas.rentalapp.Dao.OtpVerificationDao;
 import com.manas.rentalapp.Dao.SignupDao;
 import com.manas.rentalapp.Dao.UserDao;
 import com.manas.rentalapp.service.AccountVerificationService;
 import com.manas.rentalapp.service.SignupService;
 import com.manas.rentalapp.util.EmailService;
+import com.manas.rentalapp.util.OtpService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +34,7 @@ public class SignupController {
 	
 	@Autowired
 	private AccountVerificationService accountVerificationService;
+	
 	
 	@ApiOperation(value = "create new user account")
 	@RequestMapping(value="",method = RequestMethod.POST)
@@ -49,5 +54,17 @@ public class SignupController {
 		}
 		
 		
+	}
+	
+	@RequestMapping(value="/sendOtp", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> sendOtp(@RequestBody OtpVerificationDao otpVerificationDao){
+		boolean result = signupService.sendOtp(otpVerificationDao);
+		return new ResponseEntity<>(result,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/verifyOtp", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> verifyOtp(@RequestBody OtpVerificationDao otpVerificationDao){
+		boolean result = signupService.verifyOtp(otpVerificationDao);
+		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 }
