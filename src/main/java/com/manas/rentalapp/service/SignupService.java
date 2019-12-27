@@ -85,7 +85,7 @@ public class SignupService {
 			newOtp.setMobile(mobile);
 			newOtp.setOtp(otp);
 		}
-		String message="Your OTP for RENTIGO registration is "+otp;
+		String message="Your OTP for RENTIGO registration is "+newOtp.getOtp();
 		if(otpService.sendOtp(mobile, message)) {
 			otpRepository.save(newOtp);
 			return true;
@@ -96,11 +96,16 @@ public class SignupService {
 	@Transactional
 	public boolean verifyOtp(OtpVerificationDao otpVerificationDao) {
 		Optional<Otp> otpExisting = otpRepository.findByMobile(otpVerificationDao.getMobile());
-		System.out.print(otpExisting.isPresent());
 		if(!otpExisting.isPresent()) {
 			return false;
 		} else {
-			return otpExisting.get().getOtp().equals(otpVerificationDao.getOtp());
+			if(otpExisting.get().getOtp().equals(otpVerificationDao.getOtp())) {
+				otpRepository.deleteById(otpExisting.get().getId());
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 	}

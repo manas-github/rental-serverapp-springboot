@@ -33,7 +33,6 @@ public class UserProfile {
 	
 	private String lastName;
 	
-	@Column(unique=true)
 	@NotBlank
 	private String mobile;
 	
