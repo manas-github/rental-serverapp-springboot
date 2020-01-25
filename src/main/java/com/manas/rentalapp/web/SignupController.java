@@ -44,7 +44,11 @@ public class SignupController {
 		String accountVerificationString = accountVerificationService.getVerificationString(new UserDao(signupDao.getEmail()));
 		if(accountVerificationString!="error") {
 			String accountVerificationLink = "https://manas-rental-serverapp.herokuapp.com/accountVerification?secretVerificationId="+accountVerificationString;
-			emailService.sendMail(signupDao.getEmail(), "Rental app registration","Please click on the following link to complete your registration : "+accountVerificationLink );
+			try {
+				emailService.sendMail(signupDao.getEmail(), "Rental app registration","Please click on the following link to complete your registration : "+accountVerificationLink );
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		if(result) {
 			return new ResponseEntity<>(result,HttpStatus.CREATED);
