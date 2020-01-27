@@ -52,20 +52,20 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/all",method = RequestMethod.GET)
-	public List<Product> getActiveProducts(){
+	public List<Product> getActiveProducts(@RequestHeader("authorization") String token){
 		List<Product> products = productService.getAllActiveProducts();
 		return products;
 		
 	}
 	
 	@RequestMapping(value="/furnitures",method = RequestMethod.GET)
-	public List<Product> getActiveFurnitures(){
+	public List<Product> getActiveFurnitures(@RequestHeader("authorization") String token){
 		List<Product> products = productService.getAllActiveFurnitures();
 		return products;
 	}
 	
 	@RequestMapping(value="/appliances",method = RequestMethod.GET)
-	public List<Product> getActiveAppliance(){
+	public List<Product> getActiveAppliance(@RequestHeader("authorization") String token){
 		List<Product> products = productService.getAllActiveAppliances();
 		return products;
 	}
@@ -94,7 +94,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="keyPressSearch/{searchKey}",method = RequestMethod.GET)
-	public List<String> getProductByHotSearchingTitle(@PathVariable String searchKey){
+	public List<String> getProductByHotSearchingTitle(@RequestHeader("authorization") String token,@PathVariable String searchKey){
 		List<String> titles = productService.getProductTitleByHotSearch(searchKey);
 		return titles;
 	}

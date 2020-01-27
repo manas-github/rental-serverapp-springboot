@@ -88,8 +88,9 @@ public class CartController{
 	}
 	
 	@RequestMapping(value="/clear",method = RequestMethod.DELETE)
-	public ResponseEntity<String> decreaseQuantity(@RequestBody UserDao userDao){
-		boolean result = cartService.clearCart(userDao);
+	public ResponseEntity<String> decreaseQuantity(@RequestHeader("authorization") String token){
+		String email = jwtValidator.validate(token).getUserName();
+		boolean result = cartService.clearCart(new UserDao(email));
 		if(result) {
 			return new ResponseEntity<>("Succesfull",HttpStatus.OK);
 		}
