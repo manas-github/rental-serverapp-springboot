@@ -24,7 +24,7 @@ public class OtpService {
 
     public boolean sendOtp(String recepient, String message) {
     	HttpResponse response = Unirest.post("https://www.fast2sms.com/dev/bulk")
-    			  .header("authorization", "FhLS3qKj4jFejhMyj8MXIMhY7Nzupb7dQJeNjYgXovjBK1HRVdtTc0kGxHRU")
+    			  .header("authorization", "FhLS3qKj4jFejhMyj8MXIeNjYgXovjBK1HRVdtTc0kGxHRU")
     			  .header("Content-Type", "application/x-www-form-urlencoded")
     			  .body("sender_id=FSTSMS&message="+message+"&language=english&route=p&numbers="+recepient)
     			  .asString();
